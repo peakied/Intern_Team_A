@@ -1,7 +1,7 @@
 package com.peak.main.controller;
 
 import com.peak.main.model.User;
-import com.peak.main.repository.CustomerRepository;
+import com.peak.main.repository.UserRepository;
 import com.peak.security.model.RegisterRequest;
 import com.peak.main.model.Response;
 import lombok.RequiredArgsConstructor;
@@ -18,28 +18,28 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class customer {
 
-    private final CustomerRepository customerRepository;
+    private final UserRepository userRepository;
 
     // /api/v1/customers
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Response> getCustomers() {
-        return ResponseEntity.ok(new Response(customerRepository.findAll()));
+        return ResponseEntity.ok(new Response(userRepository.findAll()));
     }
 
     // /api/v1/customers/me
     @GetMapping("/me")
     public ResponseEntity<Response> getMe(Authentication authentication) {
-        return ResponseEntity.ok(new Response(customerRepository.findByName(authentication.getName())));
+        return ResponseEntity.ok(new Response(userRepository.findByName(authentication.getName())));
     }
 
     // /api/v1/customers
     @DeleteMapping
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Response> deleteCustomer(Authentication authentication) {
-        Optional<User> customer = customerRepository.findByName(authentication.getName());
+        Optional<User> customer = userRepository.findByName(authentication.getName());
         if (customer.isEmpty()) return ResponseEntity.notFound().build();
-        customerRepository.delete(customer.get());
+        userRepository.delete(customer.get());
         return ResponseEntity.ok(new Response("[]"));
     }
 
@@ -47,11 +47,11 @@ public class customer {
     @PutMapping
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Response> update(@RequestBody RegisterRequest requestUpdate) {
-        Optional<User> customer = customerRepository.findByName(requestUpdate.getName());
+        Optional<User> customer = userRepository.findByName(requestUpdate.getName());
         if (customer.isEmpty()) return ResponseEntity.notFound().build();
         customer.get().setName(requestUpdate.getName());
         customer.get().setPassword(requestUpdate.getPassword());
-        customerRepository.save(customer.get());
+        userRepository.save(customer.get());
         return ResponseEntity.ok().body(new Response(customer.get()));
     }
 }

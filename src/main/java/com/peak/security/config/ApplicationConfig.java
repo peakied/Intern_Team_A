@@ -1,6 +1,6 @@
 package com.peak.security.config;
 
-import com.peak.main.repository.CustomerRepository;
+import com.peak.main.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,11 +18,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
-    private final CustomerRepository customerRepository;
+    private final UserRepository userRepository;
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return email -> customerRepository.findByName(email)
+        return email -> userRepository.findByName(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
