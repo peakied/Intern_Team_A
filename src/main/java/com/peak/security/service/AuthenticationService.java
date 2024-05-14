@@ -2,7 +2,7 @@ package com.peak.security.service;
 
 
 import com.peak.Util.Role;
-import com.peak.main.model.Customer;
+import com.peak.main.model.User;
 import com.peak.main.repository.CustomerRepository;
 import com.peak.security.model.RegisterRequest;
 import com.peak.security.model.AuthenticationRequest;
@@ -26,26 +26,26 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public Object register(RegisterRequest request) {
-        var foundcustomer = customerRepository.findByEmail(request.getEmail());
-        if (foundcustomer.isPresent()) return "Email already register";
+        var foundcustomer = customerRepository.findByName(request.getName());
+        if (foundcustomer.isPresent()) return "Username already register";
 
-        Customer customer = new Customer(request.getName(), request.getEmail(), passwordEncoder.encode(request.getPassword()), Role.USER);
-        if (request.getKey() != null && request.getKey().equals(ADMIN_KEY)) customer.setRole(Role.ADMIN);
+        User user = new User(request.getName(), passwordEncoder.encode(request.getPassword()), Role.USER);
+        if (request.getKey() != null && request.getKey().equals(ADMIN_KEY)) user.setRole(Role.ADMIN);
 
 
-        customerRepository.save(customer);
-        var jwtToken = jwtService.generateToken(customer);
+        customerRepository.save(user);
+        var jwtToken = jwtService.generateToken(user);
         return new AuthenticationResponse(jwtToken);
     }
 
     public Object authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
+                        request.getName(),
                         request.getPassword()
                 )
         );
-        var user = customerRepository.findByEmail(request.getEmail()).orElseThrow();
+        var user = customerRepository.findByName(request.getName()).orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         return new AuthenticationResponse(jwtToken);
     }

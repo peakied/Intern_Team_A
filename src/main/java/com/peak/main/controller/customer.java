@@ -1,6 +1,6 @@
 package com.peak.main.controller;
 
-import com.peak.main.model.Customer;
+import com.peak.main.model.User;
 import com.peak.main.repository.CustomerRepository;
 import com.peak.security.model.RegisterRequest;
 import com.peak.main.model.Response;
@@ -20,30 +20,34 @@ public class customer {
 
     private final CustomerRepository customerRepository;
 
+    // /api/v1/customers
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Response> getCustomers() {
         return ResponseEntity.ok(new Response(customerRepository.findAll()));
     }
 
+    // /api/v1/customers/me
     @GetMapping("/me")
     public ResponseEntity<Response> getMe(Authentication authentication) {
-        return ResponseEntity.ok(new Response(customerRepository.findByEmail(authentication.getName())));
+        return ResponseEntity.ok(new Response(customerRepository.findByName(authentication.getName())));
     }
 
+    // /api/v1/customers
     @DeleteMapping
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Response> deleteCustomer(Authentication authentication) {
-        Optional<Customer> customer = customerRepository.findByEmail(authentication.getName());
+        Optional<User> customer = customerRepository.findByName(authentication.getName());
         if (customer.isEmpty()) return ResponseEntity.notFound().build();
         customerRepository.delete(customer.get());
         return ResponseEntity.ok(new Response("[]"));
     }
 
+    // /api/v1/customers
     @PutMapping
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Response> update(@RequestBody RegisterRequest requestUpdate) {
-        Optional<Customer> customer = customerRepository.findByEmail(requestUpdate.getEmail());
+        Optional<User> customer = customerRepository.findByName(requestUpdate.getName());
         if (customer.isEmpty()) return ResponseEntity.notFound().build();
         customer.get().setName(requestUpdate.getName());
         customer.get().setPassword(requestUpdate.getPassword());

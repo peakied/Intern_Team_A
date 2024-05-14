@@ -16,15 +16,26 @@ public class auth {
 
     private final AuthenticationService service;
 
+    // /api/v1/auth/register
+    // {
+    //    "name":"admin",
+    //    "password":"12345678",
+    //    "key":"password" if add key be admin
+    // }
     @PostMapping("/register")
     public ResponseEntity<Response> register(@RequestBody RegisterRequest request) {
-        if (request.getName() == null || request.getEmail() == null || request.getPassword() == null) return ResponseEntity.notFound().build();
+        if (request.getName() == null || request.getPassword() == null) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(new Response(service.register(request)));
     }
 
+    // /api/v1/auth/authenticate
+    // {
+    //    "name":"admin",
+    //    "password":"12345678"
+    // }
     @PostMapping("/authenticate")
     public ResponseEntity<Response> authenticate(@RequestBody AuthenticationRequest request) {
-        if (request.getEmail() == null || request.getPassword() == null) return ResponseEntity.notFound().build();
+        if (request.getName() == null || request.getPassword() == null) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(new Response(service.authenticate(request)));
     }
 }

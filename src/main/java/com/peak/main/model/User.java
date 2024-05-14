@@ -3,7 +3,6 @@ package com.peak.main.model;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.peak.Util.Role;
-import lombok.Builder;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -18,19 +17,17 @@ import java.util.List;
 
 @Document
 @Data
-public class Customer implements UserDetails {
+public class User implements UserDetails {
 
     @Id
     @JsonSerialize(using= ToStringSerializer.class)
     private @MongoId ObjectId id;
     private String name;
-    private String email;
     private String password;
     private Role role;
 
-    public Customer(String name, String email, String password, Role role) {
+    public User(String name, String password, Role role) {
         this.name = name;
-        this.email = email;
         this.password = password;
         this.role = role;
     }
@@ -42,7 +39,7 @@ public class Customer implements UserDetails {
 
     @Override
     public String getUsername() {
-        return getEmail();
+        return getName();
     }
 
     @Override

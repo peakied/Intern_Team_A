@@ -1,11 +1,10 @@
 package com.peak.main.repository;
 
-import com.peak.main.model.Customer;
-import org.bson.types.ObjectId;
+import com.peak.main.model.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
 
-public interface CustomerRepository extends MongoRepository<Customer, Integer> {
-    Optional<Customer> findByEmail(String email);
+public interface CustomerRepository extends MongoRepository<User, Integer> {
+    Optional<User> findByName(String name);
 }
