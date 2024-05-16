@@ -14,6 +14,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -29,9 +31,18 @@ public class AuthenticationService {
         var foundcustomer = userRepository.findByName(request.getName());
         if (foundcustomer.isPresent()) return "Username already register";
 
-        User user = new User(request.getName(), passwordEncoder.encode(request.getPassword()), Role.USER);
-        if (request.getKey() != null && request.getKey().equals(ADMIN_KEY)) user.setRole(Role.ADMIN);
+        User user = User.builder()
+                .name(request.getName())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(Role.USER)
+                .tel(request.getTel())
+                .address(request.getAddress())
+                .soldid(new ArrayList<>())
+                .card_number(request.getCard_number())
+                .build();
 
+        if (request.getCard_number() != null) user.setRole(Role.SELLER);
+        if (request.getKey() != null && request.getKey().equals(ADMIN_KEY)) user.setRole(Role.ADMIN);
 
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);

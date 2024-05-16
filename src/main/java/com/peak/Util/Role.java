@@ -1,5 +1,7 @@
 package com.peak.Util;
 
 public enum Role {
-    USER, ADMIN
+    USER,
+    ADMIN,
+    SELLER
 }

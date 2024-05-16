@@ -3,7 +3,7 @@ package com.peak.main.controller;
 import com.peak.main.model.User;
 import com.peak.main.repository.UserRepository;
 import com.peak.security.model.RegisterRequest;
-import com.peak.main.model.Response;
+import com.peak.main.Request.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,18 +29,9 @@ public class customer {
 
     // /api/v1/customers/me
     @GetMapping("/me")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Response> getMe(Authentication authentication) {
         return ResponseEntity.ok(new Response(userRepository.findByName(authentication.getName())));
-    }
-
-    // /api/v1/customers
-    @DeleteMapping
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<Response> deleteCustomer(Authentication authentication) {
-        Optional<User> customer = userRepository.findByName(authentication.getName());
-        if (customer.isEmpty()) return ResponseEntity.notFound().build();
-        userRepository.delete(customer.get());
-        return ResponseEntity.ok(new Response("[]"));
     }
 
     // /api/v1/customers
@@ -53,5 +44,14 @@ public class customer {
         customer.get().setPassword(requestUpdate.getPassword());
         userRepository.save(customer.get());
         return ResponseEntity.ok().body(new Response(customer.get()));
+    }
+
+    // /api/v1/customers
+    @DeleteMapping
+    public ResponseEntity<Response> deleteCustomer(Authentication authentication) {
+        Optional<User> customer = userRepository.findByName(authentication.getName());
+        if (customer.isEmpty()) return ResponseEntity.notFound().build();
+        userRepository.delete(customer.get());
+        return ResponseEntity.ok(new Response("[]"));
     }
 }

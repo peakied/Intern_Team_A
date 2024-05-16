@@ -1,10 +1,9 @@
 package com.peak.main.controller;
 
-
 import com.peak.security.model.AuthenticationRequest;
 import com.peak.security.service.AuthenticationService;
 import com.peak.security.model.RegisterRequest;
-import com.peak.main.model.Response;
+import com.peak.main.Request.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +23,12 @@ public class auth {
     // }
     @PostMapping("/register")
     public ResponseEntity<Response> register(@RequestBody RegisterRequest request) {
-        if (request.getName() == null || request.getPassword() == null) return ResponseEntity.notFound().build();
+        if (request.getName() == null ||
+                request.getPassword() == null ||
+                request.getTel() == null ||
+                request.getAddress() == null)
+            return ResponseEntity.notFound().build();
+
         return ResponseEntity.ok(new Response(service.register(request)));
     }
 

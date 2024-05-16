@@ -4,7 +4,6 @@ import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Document
-public class RequestString {
+public class RequestName {
     private String name;
 }

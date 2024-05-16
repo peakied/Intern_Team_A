@@ -2,7 +2,7 @@ package com.peak.main.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.peak.Util.Status;
+import lombok.Builder;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -18,12 +18,15 @@ public class Item {
     @Id
     @JsonSerialize(using= ToStringSerializer.class)
     private @MongoId ObjectId id;
+    private String name;
     private Integer cost;
     private Integer discount;
+    private ArrayList<String> image;
     @JsonSerialize(using= ToStringSerializer.class)
     private ObjectId owner;
-    private Status status;
     private String category;
     private String detail;
     private ArrayList<String> type;
+    private Integer stock;
+    private Integer sold;
 }
