@@ -37,7 +37,6 @@ public class AuthenticationService {
                 .role(Role.USER)
                 .tel(request.getTel())
                 .address(request.getAddress())
-                .soldid(new ArrayList<>())
                 .card_number(request.getCard_number())
                 .build();
 

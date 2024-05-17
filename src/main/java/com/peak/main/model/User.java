@@ -33,9 +33,6 @@ public class User implements UserDetails {
     private Role role;
     private String tel;
     private String address;
-
-    @ElementCollection
-    private ArrayList<Long> soldid;
     private String card_number;
 
     @Override
