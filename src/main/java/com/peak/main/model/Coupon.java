@@ -18,8 +18,7 @@ public class Coupon {
     private Long id;
     private String name;
     private Integer discount;
-    @ElementCollection
-    private ArrayList<String> requirement;
+
     private String image;
 
 }

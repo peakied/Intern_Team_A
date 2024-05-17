@@ -32,11 +32,11 @@ public class item {
         if (item.getName() == null ||
                 item.getCost() == null ||
                 item.getDiscount() == null ||
-                item.getImage() == null || item.getImage().isEmpty() ||
+
                 item.getOwner() == null ||
                 item.getCategory() == null ||
                 item.getDetail() == null ||
-                item.getType() == null || item.getType().isEmpty() ||
+
                 item.getStock() == null)
             return ResponseEntity.notFound().build();
         if (item.getSold() == null) item.setSold(0);

@@ -27,7 +27,7 @@ public class coupon {
     public ResponseEntity<Response> add(@RequestBody Coupon coupon) {
         if (coupon.getName() == null ||
                 coupon.getDiscount() == null ||
-                coupon.getRequirement() == null || coupon.getRequirement().isEmpty() ||
+
                 coupon.getImage() == null)
             return ResponseEntity.notFound().build();
 

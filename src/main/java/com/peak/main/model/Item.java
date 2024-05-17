@@ -19,14 +19,12 @@ public class Item {
     private String name;
     private Integer cost;
     private Integer discount;
-    @ElementCollection
-    private ArrayList<String> image;
+
     @JsonSerialize(using= ToStringSerializer.class)
     private Long owner;
     private String category;
     private String detail;
-    @ElementCollection
-    private ArrayList<String> type;
+
     private Integer stock;
     private Integer sold;
 }
