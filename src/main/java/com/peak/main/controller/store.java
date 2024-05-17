@@ -4,7 +4,7 @@ import com.peak.main.Request.Response;
 import com.peak.main.model.Store;
 import com.peak.main.repository.StoreRepository;
 import lombok.AllArgsConstructor;
-import org.bson.types.ObjectId;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +22,7 @@ public class store {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Response> get(@RequestParam ObjectId id) {
+    public ResponseEntity<Response> get(@RequestParam Long id) {
         return ResponseEntity.ok(new Response(storeRepository.findById(id)));
     }
 
@@ -40,7 +40,7 @@ public class store {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<Response> delete(@PathVariable String id) {
+    public ResponseEntity<Response> delete(@PathVariable Long id) {
         storeRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }

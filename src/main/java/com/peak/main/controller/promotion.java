@@ -28,7 +28,7 @@ public class promotion {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Response> delete(@PathVariable String id) {
+    public ResponseEntity<Response> delete(@PathVariable Long id) {
         promotionRespository.deleteById(id);
         return ResponseEntity.ok().build();
     }

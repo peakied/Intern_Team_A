@@ -46,7 +46,7 @@ public class item {
 
     // /item
     @DeleteMapping("/{id}")
-    public ResponseEntity<Response> delete(@RequestBody String id) {
+    public ResponseEntity<Response> delete(@RequestBody Long id) {
         itemRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }

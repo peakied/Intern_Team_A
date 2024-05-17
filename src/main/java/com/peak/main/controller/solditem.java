@@ -31,7 +31,7 @@ public class solditem {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Response> delete(@PathVariable String id) {
+    public ResponseEntity<Response> delete(@PathVariable Long id) {
         soldItemRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }

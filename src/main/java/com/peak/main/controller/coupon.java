@@ -36,7 +36,7 @@ public class coupon {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<Response> delete(@PathVariable String id) {
+    public ResponseEntity<Response> delete(@PathVariable Long id) {
         couponRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }

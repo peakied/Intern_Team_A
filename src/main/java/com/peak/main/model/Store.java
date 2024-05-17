@@ -2,21 +2,19 @@ package com.peak.main.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import jakarta.persistence.*;
 import lombok.Data;
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
 @Data
-@Document
+@Entity
+@Table(name = "store")
 public class Store {
 
     @Id
-    @JsonSerialize(using= ToStringSerializer.class)
-    private @MongoId ObjectId id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
-    private ObjectId owner;
+    private Long owner;
     private String detail;
     private String image;
 }

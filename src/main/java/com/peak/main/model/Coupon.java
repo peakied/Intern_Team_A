@@ -2,23 +2,23 @@ package com.peak.main.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import jakarta.persistence.*;
 import lombok.Data;
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.MongoId;
+
 
 import java.util.ArrayList;
 
 @Data
-@Document
+@Entity
+@Table(name = "coupon")
 public class Coupon {
 
     @Id
-    @JsonSerialize(using= ToStringSerializer.class)
-    private @MongoId ObjectId id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private Integer discount;
+    @ElementCollection
     private ArrayList<String> requirement;
     private String image;
 
