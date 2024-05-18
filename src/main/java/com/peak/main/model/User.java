@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Entity
 @Data
+@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

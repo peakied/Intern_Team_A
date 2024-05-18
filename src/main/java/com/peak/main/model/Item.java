@@ -17,14 +17,11 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private Integer cost;
+    private Long storeID;
     private Integer discount;
-
-    @JsonSerialize(using= ToStringSerializer.class)
-    private Long owner;
+    private Integer cost;
     private String category;
     private String detail;
-
     private Integer stock;
     private Integer sold;
 }

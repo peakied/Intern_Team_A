@@ -4,26 +4,30 @@ import com.peak.main.Request.RequestName;
 import com.peak.main.model.Item;
 import com.peak.main.Request.Response;
 import com.peak.main.repository.ItemRepository;
+import com.peak.main.service.ItemService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/item")
 @AllArgsConstructor
 public class item {
 
-    private final ItemRepository itemRepository;
+    private final ItemService itemService;
 
     // /item
     @GetMapping
     public ResponseEntity<Response> getAll() {
-        return ResponseEntity.ok(new Response(itemRepository.findAll()));
+        return ResponseEntity.ok(new Response(itemService.findAll()));
     }
 
+    // /item
     @GetMapping("/search")
     public ResponseEntity<Response> getById(RequestName name) {
-        return ResponseEntity.ok(new Response(itemRepository.findByName(name.getName())));
+        return ResponseEntity.ok(new Response(itemService.findByName(name.getName())));
     }
 
     // /item
@@ -31,23 +35,18 @@ public class item {
     public ResponseEntity<Response> add(@RequestBody Item item) {
         if (item.getName() == null ||
                 item.getCost() == null ||
-                item.getDiscount() == null ||
-
-                item.getOwner() == null ||
+                item.getStoreID() == null ||
                 item.getCategory() == null ||
-                item.getDetail() == null ||
-
-                item.getStock() == null)
+                item.getDetail() == null)
             return ResponseEntity.notFound().build();
-        if (item.getSold() == null) item.setSold(0);
 
-        return ResponseEntity.ok(new Response(itemRepository.save(item)));
+        return ResponseEntity.ok(new Response(itemService.save(item)));
     }
 
     // /item
     @DeleteMapping("/{id}")
-    public ResponseEntity<Response> delete(@RequestBody Long id) {
-        itemRepository.deleteById(id);
+    public ResponseEntity<Response> delete(@PathVariable long id) {
+        itemService.deleteById(id);
         return ResponseEntity.ok().build();
     }
 }

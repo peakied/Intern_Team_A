@@ -13,8 +13,10 @@ public class Store {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String name;
-    private Long owner;
+    @Column(nullable = false)
+    private Long userID;
     private String detail;
     private String image;
 }
